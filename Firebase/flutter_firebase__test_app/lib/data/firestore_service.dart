@@ -3,6 +3,7 @@ import 'package:flutter_firebase__test_app/data/model/note.dart';
 
 class FirestoreService {
   static final FirestoreService _firestoreService = FirestoreService._internal();
+  
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
   FirestoreService._internal();
@@ -21,8 +22,10 @@ class FirestoreService {
         );
   }
 
-  Future<void> addNote(Note note) {
-    return _db.collection('notes').add(note.toMap());
+  Future<void> addNote(Note note) async{
+    _db.collection('notes').add(note.toMap()).catchError((onError){
+      print(onError);
+    });
   }
 
   Future<void> deleteNote(String id) {
